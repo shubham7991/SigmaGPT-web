@@ -11,33 +11,33 @@
 // });
 
 // console.log(response.output_text);
-import express from 'express'
-import 'dotenv/config'
-import cors from 'cors'
-import mongoose from 'mongoose';
-import chatRoutes from "./routes/chat.js"
+// import express from 'express'
+// import 'dotenv/config'
+// import cors from 'cors'
+// import mongoose from 'mongoose';
+// import chatRoutes from "./routes/chat.js"
 
-const app=express();
-const PORT=8080;
+// const app=express();
+// const PORT=8080;
 
-app.use(express.json());
-app.use(cors());
-app.use("/api",chatRoutes)
+// app.use(express.json());
+// app.use(cors());
+// app.use("/api",chatRoutes)
 
-app.listen(PORT,()=>{
-    console.log(`server running on ${PORT}`);
-    connectDB();
-})
+// app.listen(PORT,()=>{
+//     console.log(`server running on ${PORT}`);
+//     connectDB();
+// })
 
-const connectDB=async()=>{
-    try{
-        await mongoose.connect(process.env.MONGODB_URI);
-        console.log("Connected with Database!");
+// const connectDB=async()=>{
+//     try{
+//         await mongoose.connect(process.env.MONGODB_URI);
+//         console.log("Connected with Database!");
         
-    } catch(err){
-        console.log("failed to connect with the db",err);
-    }
-}
+//     } catch(err){
+//         console.log("failed to connect with the db",err);
+//     }
+// }
 
 // app.post("/test",async(req,res)=>{
 //     const options={
@@ -64,3 +64,59 @@ const connectDB=async()=>{
 //         console.log(err);  
 //     }
 // })
+import express from 'express';
+import 'dotenv/config';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import chatRoutes from './routes/chat.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const app = express();
+const PORT = process.env.PORT || 8080;
+
+// For ES modules to get __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Middleware
+app.use(express.json());
+app.use(cors());
+
+// API routes
+app.use('/api', chatRoutes);
+
+// -------------------------
+// Serve Frontend (Vite dist)
+// -------------------------
+const frontendPath = path.join(__dirname, '../Frontend/dist');
+
+
+// Catch-all route for SPA
+// Catch-all route for SPA
+// Catch-all route for SPA
+// Serve frontend files
+app.use(express.static(frontendPath));
+
+// Catch-all for SPA
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(frontendPath, 'index.html'));
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  connectDB();
+});
+
+// -------------------------
+// Connect to DB
+// -------------------------
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log('✅ Connected with Database!');
+  } catch (err) {
+    console.log('❌ Failed to connect with the DB', err);
+  }
+};

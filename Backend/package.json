@@ -1,5 +1,9 @@
 {
   "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "build-frontend": "cd ../Frontend && npm install && npm run build"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",

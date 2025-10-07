@@ -3,7 +3,7 @@
 A full-stack AI chatbot web application built with **React** and **Express**, inspired by SigmaGPT.  
 Deployed on **Render**.
 
-🚀 **Live Demo:** [url-->](https://sigmagpt-web.onrender.com/)
+🚀 **Live Demo:** [https://sigmagpt-web.onrender.com/](https://sigmagpt-web.onrender.com/)
 
 ---
 
